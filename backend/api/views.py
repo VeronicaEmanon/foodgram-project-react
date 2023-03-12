@@ -163,5 +163,5 @@ class RecipeViewSet(ModelViewSet):
         ])
         filename = "foodgram_shopping_cart.txt"
         response = HttpResponse(shopping_list, content_type="text/plain")
-        response["Content=Disposition"] = f"attachment; {filename}"
+        response["Content-Disposition"] = f"attachment; {filename}"
         return response
