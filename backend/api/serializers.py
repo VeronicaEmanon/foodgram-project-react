@@ -15,7 +15,7 @@ User = get_user_model()
 
 class CustomUserSerializer(UserSerializer):
     is_subscribed = serializers.SerializerMethodField()
-    
+
     class Meta:
         model = User
         fields = (
@@ -26,7 +26,7 @@ class CustomUserSerializer(UserSerializer):
             "last_name",
             "is_subscribed",
         )
-    
+
     def get_is_subscribed(self, obj):
         user = self.context.get("request").user
         if user.is_anonymous:
@@ -45,7 +45,7 @@ class POSTUserSerializer(UserCreateSerializer):
             "first_name",
             "last_name"
         )
-    
+
     def create(self, validated_data):
         user = User.objects.create(
             username=validated_data.get("username"),
@@ -62,7 +62,7 @@ class Hex2NameColor(serializers.Field):
 
     def to_representation(self, value):
         return value
-    
+
     def to_internal_value(self, data):
         try:
             data = webcolors.hex_to_name(data)
@@ -81,13 +81,13 @@ class Base64ImageField(serializers.ImageField):
 
 
 class TagsSerializer(serializers.ModelSerializer):
-    color = Hex2NameColor 
+    color = Hex2NameColor
 
     class Meta:
         model = Tags
         fields = ("id", "name", "color", "slug")
 
-    
+
 class IngredientsSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -100,14 +100,16 @@ class IngredientsInRecipeSerializers(serializers.ModelSerializer):
         source="ingredeint.id"
     )
     name = serializers.ReadOnlyField(source="ingredient.name")
-    measurement_unit = serializers.ReadOnlyField(source="ingredient.measurement_unit")
+    measurement_unit = serializers.ReadOnlyField(
+        source="ingredient.measurement_unit"
+    )
 
     class Meta:
         model = IngredientInRecipe
         fields = (
             "id",
-            "name", 
-            "amount", 
+            "name",
+            "amount",
             "measurement_unit",
         )
 
