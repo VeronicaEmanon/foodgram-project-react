@@ -67,7 +67,8 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         script: |
-          sudo docker pull descucci/foodgram_d:latest
+          sudo docker pull descucci/backend:latest
+          sudo docker pull descucci/frontend:latest
           sudo docker-compose stop
           sudo docker-compose rm backend
           sudo docker-compose rm frontend
