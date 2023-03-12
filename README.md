@@ -2,6 +2,12 @@
   
 ![badge](https://github.com/VeronicaEmanon/foodgram-project-react/actions/workflows/main.yml/badge.svg)
 ---
+- <b>Адрес: </b>
+- http://158.160.21.134/
+
+- <b> АДМИН: </b>
+email: admin@mail.ru
+password: practicum
 
 ## 1. Описание
 
