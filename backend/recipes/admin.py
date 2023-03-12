@@ -24,9 +24,6 @@ class RecipeAdmin(admin.ModelAdmin):
     readonly_fields = ("added_to_favorites_amount", )
     empty_value_display = "-пусто-"
 
-    def save_model(self, request, obj, form, change):
-        obj.save(from_admin=True)
-
 
 class TagsAdmin(admin.ModelAdmin):
     list_display = ("name", "color", "slug", )
