@@ -4,7 +4,6 @@ import webcolors
 from django.core.files.base import ContentFile
 from django.db import transaction
 from djoser.serializers import UserCreateSerializer, UserSerializer
-# from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
 from recipes.models import (IngredientInRecipe, Ingredients, Recipe,
