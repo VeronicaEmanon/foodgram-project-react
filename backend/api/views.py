@@ -12,7 +12,7 @@ from datetime import datetime
 from recipes.models import (Favourite, IngredientInRecipe, Ingredients, Recipe,
                             ShoppingCart, Tags)
 from .filters import IngredientFilter, RecipeFilter
-from .permissions import IsAuthorOrReadOnly
+from .permissions import IsAuthorOrReadOnly, IsAdminOrReadOnly
 from .serializers import (IngredientsSerializer, RecipePOSTUPDELSerializer,
                           RecipeListSerializer, ShoppingCartSerializer, 
                           TagsSerializer, RecipeInfoSerializer)
@@ -22,9 +22,10 @@ class IngredientsViewSet(ModelViewSet):
     queryset = Ingredients.objects.all()
     serializer_class = IngredientsSerializer
     pagination_class = None
-    filter_backends = (DjangoFilterBackend, )
+    filter_backends = [DjangoFilterBackend]
     filterset_class = IngredientFilter
-   
+    search_fields = ("^name", )
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 class TagsViewsSet(ModelViewSet):
     queryset = Tags.objects.all()
@@ -36,8 +37,8 @@ class TagsViewsSet(ModelViewSet):
 class RecipeViewSet(ModelViewSet):
     queryset = Recipe.objects.all()
     serializer_class = RecipePOSTUPDELSerializer
-    permission_classes = (IsAuthorOrReadOnly, )
-    filter_backends = (DjangoFilterBackend, )
+    filter_backends = [DjangoFilterBackend]
+    permission_classes = (IsAuthorOrReadOnly | IsAdminOrReadOnly)
     filterset_class = RecipeFilter
 
     def get_serializer_class(self):
@@ -74,8 +75,8 @@ class RecipeViewSet(ModelViewSet):
         serializer.save(author=self.request.user)
 
     def perform_destroy(self, instance):
-        if self.request.user != instance.author:
-            raise Exception("Рецепт может удалить только автор или суперюзер")
+        # if self.request.user != instance.author:
+        #     raise Exception("Рецепт может удалить только автор или суперюзер")
         instance.delete()
 
     @action(
