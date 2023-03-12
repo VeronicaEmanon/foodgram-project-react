@@ -7,7 +7,7 @@ services:
     env_file:
       - ./.env
   web:
-    image: descucci/yamdb_final:latest
+    image: descucci/backend:latest
     restart: always
     volumes:
       - static_value:/app/static/
@@ -18,11 +18,11 @@ services:
       - .env
 
   frontend:
-    build:
-      context: ../frontend
-      dockerfile: Dockerfile
+    image: descucci/frontend:latest
     volumes:
       - ../frontend/:/app/result_build/
+    depends_on:
+      - web
 
   nginx:
     image: nginx:1.19.3
