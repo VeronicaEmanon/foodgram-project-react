@@ -24,7 +24,6 @@ class IngredientsViewSet(ModelViewSet):
     pagination_class = None
     filter_backends = (DjangoFilterBackend, )
     filterset_class = IngredientFilter
-    search_fields = ("^name", )
    
 
 class TagsViewsSet(ModelViewSet):
