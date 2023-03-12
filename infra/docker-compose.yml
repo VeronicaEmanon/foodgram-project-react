@@ -38,6 +38,6 @@ services:
       - web
       - frontend
   
-  volumes:
-    static_value:
-    media_value:
+volumes:
+  static_value:
+  media_value:
