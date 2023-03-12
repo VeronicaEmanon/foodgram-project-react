@@ -49,7 +49,7 @@ class Follow(models.Model):
     )
 
     class Meta:
-        verbose_name="Подписка на автора"
+        verbose_name = "Подписка на автора"
         verbose_name_plural = "Подписка на авторов"
         constraints = [
             models.UniqueConstraint(
