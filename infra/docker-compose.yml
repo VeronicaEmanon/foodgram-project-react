@@ -6,6 +6,7 @@ services:
       - /var/lib/postgresql/data/
     env_file:
       - ./.env
+
   web:
     image: descucci/backend:latest
     restart: always
