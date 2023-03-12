@@ -1,6 +1,4 @@
 import os
-from datetime import timedelta
-
 
 from dotenv import load_dotenv
 
@@ -30,7 +28,6 @@ INSTALLED_APPS = [
     'recipes',
     'users',
     'api',
-    # 'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -73,7 +70,7 @@ DATABASES = {
         "HOST": os.getenv("DB_HOST", default="db"),
         "PORT": os.getenv("DB_PORT", default="5432")
     }
-} 
+}
 
 AUTH_USER_MODEL = 'users.User'
 
@@ -112,7 +109,6 @@ STATIC_URL = '/static/'
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
-        
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
@@ -122,7 +118,7 @@ REST_FRAMEWORK = {
 }
 
 DJOSER = {
-    'SERIALIZERS':{
+    'SERIALIZERS': {
         'user_create': "api.serializers.POSTUserSerializer",
         "user": "api.serializers.CustomUserSerializer",
         "current_user": "api.serializers.CustomUserSerializer",
@@ -137,20 +133,10 @@ DJOSER = {
 
 
 STATIC_URL = '/static/'
-# STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static/'),)
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LANGUAGE_CODE = 'ru'
-
-# CORS_ALLOWED_ORIGINS = [
-#     'http://158.160.22.236',
-#     'http://localhost'
-# ]
-# CORS_URLS_REGEX = [
-#     r'^/api/.*$',
-# ]
-
-

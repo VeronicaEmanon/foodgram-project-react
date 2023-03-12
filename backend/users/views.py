@@ -39,7 +39,7 @@ class CustomUserViewSet(UserViewSet):
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        
+
         if request.method == "DELETE":
             subscription = get_object_or_404(
                 Follow,
@@ -63,6 +63,3 @@ class CustomUserViewSet(UserViewSet):
             many=True,
             context={'request': request})
         return self.get_paginated_response(serializer.data)
-
-    
-    

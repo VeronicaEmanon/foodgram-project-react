@@ -9,13 +9,22 @@ class RecipeIngredientInline(admin.TabularInline):
     min_num = 1
     extra = 0
 
+
 class RecipeAdmin(admin.ModelAdmin):
     def added_to_favorites_amount(self, obj):
         return Favourite.objects.filter(recipe=obj).count()
     added_to_favorites_amount.short_description = "Добавлений в избранное"
 
-    
-    list_display = ("pk", "author", "image", "name", "pub_date", "cooking_time", "text", "added_to_favorites_amount")
+    list_display = (
+        "pk",
+        "author",
+        "image",
+        "name",
+        "pub_date",
+        "cooking_time",
+        "text",
+        "added_to_favorites_amount"
+    )
     list_filter = ("name", "author", )
     search_fields = ("name", )
     filter_horizontal = ("tags", )
@@ -39,6 +48,7 @@ class IngredientsAdmin(admin.ModelAdmin):
 class IngredientsInRecipeAdmin(admin.ModelAdmin):
     list_display = ("recipe", "ingredient", "amount")
     empty_value_display = "-пусто-"
+
 
 class FavouriteAdmin(admin.ModelAdmin):
     list_display = ("user", "recipe", )

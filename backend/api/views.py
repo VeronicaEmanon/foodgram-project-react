@@ -1,4 +1,4 @@
-from django.db.models import Exists, F, OuterRef, Sum
+from django.db.models import Exists, OuterRef, Sum
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
@@ -14,7 +14,7 @@ from recipes.models import (Favourite, IngredientInRecipe, Ingredients, Recipe,
 from .filters import IngredientFilter, RecipeFilter
 from .permissions import IsAuthorOrReadOnly, IsAdminOrReadOnly
 from .serializers import (IngredientsSerializer, RecipePOSTUPDELSerializer,
-                          RecipeListSerializer, ShoppingCartSerializer, 
+                          RecipeListSerializer, ShoppingCartSerializer,
                           TagsSerializer, RecipeInfoSerializer)
 
 
@@ -26,6 +26,7 @@ class IngredientsViewSet(ModelViewSet):
     filterset_class = IngredientFilter
     search_fields = ("^name", )
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
 
 class TagsViewsSet(ModelViewSet):
     queryset = Tags.objects.all()
@@ -45,7 +46,7 @@ class RecipeViewSet(ModelViewSet):
         if self.request.method in SAFE_METHODS == "GET":
             RecipeListSerializer
         return RecipePOSTUPDELSerializer
-    
+
     def get_queryset(self):
         queryset = Recipe.objects.select_related(
             "author"
@@ -75,8 +76,6 @@ class RecipeViewSet(ModelViewSet):
         serializer.save(author=self.request.user)
 
     def perform_destroy(self, instance):
-        # if self.request.user != instance.author:
-        #     raise Exception("Рецепт может удалить только автор или суперюзер")
         instance.delete()
 
     @action(
@@ -103,7 +102,7 @@ class RecipeViewSet(ModelViewSet):
         if Favourite.objects.filter(user=request.user, recipe__id=pk).exists():
             Favourite.objects.filter(user=request.user, recipe__id=pk).delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
-        return Response(status=status.HTTP_400_BAD_REQUEST) 
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
     @action(
         methods=["POST", "DELETE"],
@@ -126,7 +125,7 @@ class RecipeViewSet(ModelViewSet):
             )
             serializer = ShoppingCartSerializer(instance)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        
+
         if ShoppingCart.objects.filter(
             user=request.user, recipe__id=pk
         ).exists():
@@ -137,9 +136,9 @@ class RecipeViewSet(ModelViewSet):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
     @action(
-            methods=["GET"],
-            detail=False,
-            permission_classes=[permissions.IsAuthenticated]
+        methods=["GET"],
+        detail=False,
+        permission_classes=[permissions.IsAuthenticated]
     )
     def download_shopping_cart(self, request):
         user = request.user

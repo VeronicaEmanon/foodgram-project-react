@@ -10,9 +10,10 @@ PyJWT==2.6.0
 requests==2.28.2
 sqlparse==0.4.3
 webcolors==1.11.1
-# django-cors-headers==3.14.0
 django-colorfield
 python-dotenv==0.21.1
 psycopg2-binary==2.8.6
 gunicorn==20.0.4
 pytz==2020.1
+drf_extra_fields==3.4.1
+flake8==3.15.0
