@@ -136,14 +136,14 @@ class RecipeViewSet(ModelViewSet):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
     @action(
-        methods=["GET"]
+        methods=["GET"],
         detail=False,
         permission_classes=[permissions.IsAuthenticated]
     )
     def download_shopping_cart(self, request):
-        ingredients = IngredientInRecipe.objects.select_related(
-            "recipe", "ingredient"
-        )
+        user = request.user
+        if not user.shopping_cart_recipe.exists():
+            return Response(status=status.HTTP_400_BAD_REQUEST)
         ingredients = IngredientInRecipe.objects.filter(
             recipe__shopping_cart_recipe__user=request.user
         ).values(
@@ -152,7 +152,7 @@ class RecipeViewSet(ModelViewSet):
         ).annotate(amount=Sum("amount"))
         today = datetime.today()
         shopping_list = (
-            f"Список покупок для: {request.user.get_username()}\n\n"
+            f"Список покупок для: {user.get_username()}\n\n"
             f"Дата: {today:%Y-%m-%d}\n\n"
         )
         shopping_list += '\n'.join([
