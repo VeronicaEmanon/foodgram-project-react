@@ -183,6 +183,10 @@ sudo systemctl stop nginx
 <b>Адреса: </b>
 - http://158.160.21.134/
 
+- АДМИН:
+email: admin@mail.ru
+password: practicum
+
 ## 3. Информация об API (на примере POSTMAN)
 Далее все адреса вводятся в приложение <b>POSTMAN</b>.
 В проекте используется JWT - аутентификация. Для регистрации придумайте логин и пароль на эндпоинт `api/auth/users/`:

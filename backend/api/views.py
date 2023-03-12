@@ -136,7 +136,6 @@ class RecipeViewSet(ModelViewSet):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
     @action(
-        methods=["GET"],
         detail=False,
         permission_classes=[permissions.IsAuthenticated]
     )
