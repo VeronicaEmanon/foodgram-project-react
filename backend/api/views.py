@@ -12,7 +12,7 @@ from datetime import datetime
 from recipes.models import (Favourite, IngredientInRecipe, Ingredients, Recipe,
                             ShoppingCart, Tags)
 from .filters import IngredientFilter, RecipeFilter
-from .permissions import IsAuthorOrSuOrReadOnly
+from .permissions import IsAuthorOrReadOnly
 from .serializers import (IngredientsSerializer, RecipePOSTUPDELSerializer,
                           RecipeListSerializer, ShoppingCartSerializer, 
                           TagsSerializer, RecipeInfoSerializer)
@@ -22,7 +22,6 @@ class IngredientsViewSet(ModelViewSet):
     queryset = Ingredients.objects.all()
     serializer_class = IngredientsSerializer
     pagination_class = None
-    permission_classes = (permissions.AllowAny, )
     filter_backends = (DjangoFilterBackend, )
     filterset_class = IngredientFilter
     search_fields = ("^name", )
@@ -38,7 +37,7 @@ class TagsViewsSet(ModelViewSet):
 class RecipeViewSet(ModelViewSet):
     queryset = Recipe.objects.all()
     serializer_class = RecipePOSTUPDELSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsAuthorOrSuOrReadOnly)
+    permission_classes = (IsAuthorOrReadOnly, )
     filter_backends = (DjangoFilterBackend, )
     filterset_class = RecipeFilter
 
