@@ -67,10 +67,12 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         script: |
-          sudo docker pull descucci/backend:latest
-          sudo docker pull descucci/frontend:latest
           sudo docker-compose stop
-          sudo docker-compose rm backend
+          sudo docker container rm $(sudo docker container ps -aq)
+          sudo docker image rm $(sudo docker image ls -aq)
+          sudo docker container prune -f
+          sudo docker image prune -f
+          rm .env
           touch .env
           echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
           echo DB_NAME=${{ secrets.DB_NAME }} >> .env
