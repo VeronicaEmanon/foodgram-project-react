@@ -30,7 +30,7 @@ INSTALLED_APPS = [
     'recipes',
     'users',
     'api',
-    'corsheaders',
+    # 'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -147,8 +147,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LANGUAGE_CODE = 'ru'
 
-CORS_ALLOWED_ORIGINS = [
-    'http://158.160.22.236',
-    'http://localhost'
-]
-CORS_URLS_REGEX = r'^/api/.*$'
+# CORS_ALLOWED_ORIGINS = [
+#     'http://158.160.22.236',
+#     'http://localhost'
+# ]
+# CORS_URLS_REGEX = r'^/api/.*$'
+
+
