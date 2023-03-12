@@ -41,8 +41,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'foodgram.urls'
@@ -151,6 +149,8 @@ LANGUAGE_CODE = 'ru'
 #     'http://158.160.22.236',
 #     'http://localhost'
 # ]
-# CORS_URLS_REGEX = r'^/api/.*$'
+# CORS_URLS_REGEX = [
+#     r'^/api/.*$',
+# ]
 
 
