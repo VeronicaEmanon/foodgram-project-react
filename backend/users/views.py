@@ -1,41 +1,45 @@
-
-from api.pagination import CustomPagination
-from api.serializers import CustomUserSerializer, FollowSerializer
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from djoser.views import UserViewSet
-from rest_framework import permissions, status, viewsets
+from rest_framework import permissions, status 
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from .models import Follow, User
+from .models import Follow
+from api.pagination import CustomPagination
+from api.serializers import FollowListSerializer, CustomUserSerializer, FollowSerializer, FollowListSerializer
 
-# User = get_user_model()
+User = get_user_model()
 
 
 class CustomUserViewSet(UserViewSet):
     queryset = User.objects.all()
     serializer_class =  CustomUserSerializer
+    pagination_class = CustomPagination
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
-    
+
     @action(
         methods=["POST", "DELETE"],
-        detail=False,
+        detail=True,
         permission_classes=[permissions.IsAuthenticated]
     )
-    def subscribe(self, request, **kwargs):
+    def subscribe(self, request, id):
         user = request.user
-        author_id = self.kwargs.get("id")
-        author = get_object_or_404(User, id=author_id)
+        author = get_object_or_404(User, id=id)
         if request.method == "POST":
-            serializer = FollowSerializer(
-                author,
-                data=request.data,
+            data = {
+                "user": user.id,
+                "author": author.id
+            }
+            serializer = FollowListSerializer(
+                data=data,
                 context={"request": request}
             )
             serializer.is_valid(raise_exception=True)
-            Follow.objects.create(user=user, author=author)
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        
         if request.method == "DELETE":
             subscription = get_object_or_404(
                 Follow,
@@ -46,6 +50,7 @@ class CustomUserViewSet(UserViewSet):
             return Response(status=status.HTTP_204_NO_CONTENT)
 
     @action(
+        methods=["GET"],
         detail=False,
         permission_classes=[permissions.IsAuthenticated]
     )

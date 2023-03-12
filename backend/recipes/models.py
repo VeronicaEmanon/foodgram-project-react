@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, RegexValidator
 from django.db import models
 
 User = get_user_model()
@@ -12,7 +12,11 @@ class Tags(models.Model):
     )
     color = models.CharField(
         max_length=7,
-        verbose_name="Цвет в HEX"
+        verbose_name="Цвет в HEX",
+        validators=[RegexValidator(
+            regex=r"^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
+            message="Цвет тэга содержит недопустимый символ"
+        )],
     )
     slug = models.SlugField(
         unique=True,
@@ -42,6 +46,12 @@ class Ingredients(models.Model):
         ordering = ("id", )
         verbose_name = "Ингредиент"
         verbose_name_plural = "Ингредиенты"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["name", "measurement_unit"],
+                name="uniqie_name_for_measurement_unit",
+            ),
+        ]
 
     def __str__(self):
         return f"{self.name}"
@@ -73,7 +83,7 @@ class Recipe(models.Model):
     text = models.TextField(
         verbose_name="Описание"
     )
-    cooking_time = models.PositiveSmallIntegerField(
+    cooking_time = models.PositiveIntegerField(
         validators=[
             MinValueValidator(1, message="минимальное время приготовления 1 м.")
         ],
@@ -111,10 +121,10 @@ class IngredientInRecipe(models.Model):
         related_name="ingredient",
         verbose_name="Ингредиент"
     )
-    amount = models.PositiveSmallIntegerField(
+    amount = models.PositiveIntegerField(
         default=1,
         validators=[
-        MinValueValidator(1, message="Минимальное количество ингредиента 1 шт.")
+        MinValueValidator(1, message="Минимальное количество ингредиента 1")
         ],
         verbose_name="Количество ингредиентов в рецепте"
     )
