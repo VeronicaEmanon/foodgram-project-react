@@ -47,7 +47,7 @@ class Api {
   signout () {
     const token = localStorage.getItem('token')
     return fetch(
-      this._url + '/api/auth/token/logout/',
+      '/api/auth/token/logout/',
       {
         method: 'POST',
         headers: {
@@ -318,7 +318,7 @@ class Api {
   getIngredients ({ name }) {
     const token = localStorage.getItem('token')
     return fetch(
-      this._url + `/api/ingredients/?name=${name}`,
+      `/api/ingredients/?name=${name}`,
       {
         method: 'GET',
         headers: {

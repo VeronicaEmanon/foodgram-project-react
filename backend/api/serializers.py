@@ -1,13 +1,13 @@
 import base64
-from django.contrib.auth import get_user_model
+
 import webcolors
+from django.contrib.auth import get_user_model
 from django.core.files.base import ContentFile
 from django.db import transaction
 from djoser.serializers import UserCreateSerializer, UserSerializer
+from recipes.models import (Favourite, IngredientInRecipe, Ingredients, Recipe,
+                            ShoppingCart, Tags)
 from rest_framework import serializers
-
-from recipes.models import (IngredientInRecipe, Ingredients, Recipe,
-                            ShoppingCart, Tags, Favourite)
 from users.models import Follow
 
 User = get_user_model()
@@ -256,7 +256,7 @@ class RecipeInfoSerializer(serializers.ModelSerializer):
     
 
 class FavouritesSerializer(serializers.ModelSerializer):
-    
+
     class Meta:
         model = Favourite
         fields = ("id", "recipe", "user")
@@ -267,4 +267,3 @@ class ShoppingCartSerializer(serializers.ModelSerializer):
     class Meta:
         model = ShoppingCart
         fields = ("recipe", "user")
-
