@@ -171,7 +171,8 @@ sudo docker container ls -a #обзор ВСЕХ контейнеров
 sudo docker container ls #обзор ЗАПУЩЕННЫХ контейнеров
 sudo docker container #вызов списка команд для работы с контейнером
 sudo docker exec -it <CONTAINER ID> bash #вход в контейнер
-sudo docker-compose exec web ls <DIRECTORY> #вход в директорию контейнера
+sudo docker-compose exec backend ls <DIRECTORY> #вход в директорию контейнера
+sudo docker-compose exec backend python manage.py load_ingredients #загрузка дефолтных ингредиентов
 ```
 - Работа:
 ```
